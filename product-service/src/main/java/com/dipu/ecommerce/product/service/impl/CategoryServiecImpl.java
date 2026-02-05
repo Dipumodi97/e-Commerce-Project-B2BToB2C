@@ -1,0 +1,64 @@
+package com.dipu.ecommerce.product.service.impl;
+
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+
+import com.dipu.ecommerce.product.dto.CategoryDto;
+import com.dipu.ecommerce.product.entities.Category;
+import com.dipu.ecommerce.product.mapper.CategoryMapper;
+import com.dipu.ecommerce.product.repositories.CategoryRepository;
+import com.dipu.ecommerce.product.service.CategoryService;
+
+import lombok.RequiredArgsConstructor;
+
+@Service
+@RequiredArgsConstructor
+public class CategoryServiecImpl implements CategoryService {
+
+	private final CategoryRepository categoryRepository;
+	private final CategoryMapper categoryMapper;
+
+	@Override
+	public CategoryDto createCategory(CategoryDto categoryDto) {
+
+		Category category = categoryMapper.toEntity(categoryDto);
+
+		return categoryMapper.toDto(categoryRepository.save(category));
+	}
+
+	@Override
+	public CategoryDto updateCategory(Long id, CategoryDto categoryDto) {
+		Category category = categoryRepository.findById(id)
+				.orElseThrow(() -> new RuntimeException("Category not Found"));
+
+		category.setCategoryName(categoryDto.getCategoryName());
+		category.setDescription(categoryDto.getDescription());
+		category.setParentId(categoryDto.getParentId());
+
+		return categoryMapper.toDto(categoryRepository.save(category));
+	}
+
+	@Override
+	public void deleteCategory(Long id) {
+		categoryRepository.deleteById(id);
+
+	}
+
+	@Override
+	public CategoryDto getCategoryById(Long id) {
+		
+		return categoryRepository.findById(id)
+				.map(categoryMapper:: toDto)
+				.orElseThrow(()-> new RuntimeException("Category Not Found"));
+	}
+
+	@Override
+	public List<CategoryDto> getAllCategory() {
+		
+		return categoryRepository.findAll().stream()
+				.map(categoryMapper::toDto)
+				.toList();
+	}
+
+}

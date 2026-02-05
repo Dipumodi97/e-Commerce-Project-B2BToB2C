@@ -1,0 +1,61 @@
+package com.dipu.ecommerce.product.service;
+
+import org.springframework.data.domain.Page;
+
+import com.dipu.ecommerce.product.dto.ProductDto;
+
+public interface ProductService {
+
+	ProductDto createProduct(ProductDto dto);
+	ProductDto updateProduct(Long id,ProductDto dto);
+	
+	void deleteProduct(Long id);
+	ProductDto getProductById(Long id);
+	/**
+	 * getAllProduct() is method me all product fetch karenge,
+	 * iss method me bahut saari parameter pass karna  hai kyoki iske andar ek Pageable 
+	 * object banega and iss object ko page ,size, sortDir etc batani hoti  hai jisse
+	 * wo pageable object create karega
+	 * 
+	 * @param page
+	 * @param size
+	 * @param sortBy ->  field ke hisab se sorting in entity
+	 * @param sortDir ->
+	 * @return
+	 */
+	Page<ProductDto> getAllProduct(int page,int size,String sortBy,String sortDir);
+	
+	/**
+	 * ek method jisme keyword ke base pe Product Search karega
+	 * 
+	 * @param keyword
+	 * @param page
+	 * @param size
+	 * @return
+	 */
+	Page<ProductDto> searchProduct(String keyword,int page,int size);
+	
+	/**
+	 * Now, we create a method, jo categoryId+price Range ke hisab se data layega or 
+	 * filter Karega
+	 * 
+	 * Iske baad Pageable ke liye data dena hai jiske liye Page ka number and size 
+	 * batana hota hai
+	 * 
+	 * @param categoryId
+	 * @param minPrice
+	 * @param maxPrice
+	 * @param page
+	 * @param size
+	 * @return
+	 */
+	Page<ProductDto> filterProducts(Long categoryId,Double minPrice,
+			Double maxPrice,int page,int size);
+
+	/**
+	 * Abb ek aur powerful/advance method banate hai jisme keyword,category,priceRange,
+	 * sorting all thing ek saath ho raha hoga
+	 */
+    Page<ProductDto> advanceFilter(String keyword,Long categoryId,Double minPrice,
+    		Double maxPrice,int Page,int size,String sortBy,String sortDir);
+}

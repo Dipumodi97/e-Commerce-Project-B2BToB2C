@@ -1,0 +1,60 @@
+package com.dipu.ecommerce.product.controller;
+
+import java.util.List;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.dipu.ecommerce.product.dto.CategoryDto;
+import com.dipu.ecommerce.product.service.CategoryService;
+
+import lombok.RequiredArgsConstructor;
+
+@RestController
+@RequestMapping("/api/category")
+@RequiredArgsConstructor
+public class CategoryController {
+
+	private final CategoryService categoryService;
+	
+	@PostMapping
+	public ResponseEntity<CategoryDto> createCategory(@RequestBody CategoryDto categoryDto){
+		
+		return ResponseEntity.ok(categoryService.createCategory(categoryDto));
+	}
+	
+	@GetMapping
+	public ResponseEntity<List<CategoryDto>> getAllCategories(){
+		
+		return ResponseEntity.ok(categoryService.getAllCategory());
+	}
+	
+	@GetMapping("/{id}")
+	public ResponseEntity<CategoryDto> getCategoryById(@PathVariable Long id){
+		
+		return ResponseEntity.ok(categoryService.getCategoryById(id));
+	}
+	
+	@PutMapping("/{id}")
+	public ResponseEntity<CategoryDto> updateCategory(
+			@PathVariable Long id,
+			@RequestParam CategoryDto categoryDto
+			){
+		
+		return ResponseEntity.ok(categoryService.updateCategory(id, categoryDto));
+	}
+	
+	@DeleteMapping("/{id}")
+	public ResponseEntity<String> deleteCategoryById(@PathVariable Long id){
+		categoryService.deleteCategory(id);
+		return ResponseEntity.ok("Category '"+id+"' Deleted Successfully ");
+	}
+}

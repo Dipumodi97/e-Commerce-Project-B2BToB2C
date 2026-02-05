@@ -1,0 +1,9 @@
+package com.dipu.ecommerce.gateway.security;
+
+import org.springframework.stereotype.Component;
+
+@Component
+public class JwtUtil {
+
+	
+}

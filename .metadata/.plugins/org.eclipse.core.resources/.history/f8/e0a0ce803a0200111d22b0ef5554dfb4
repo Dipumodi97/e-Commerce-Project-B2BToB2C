@@ -1,0 +1,5 @@
+package com.dipu.ecommerce.inventory.repository;
+
+public class InventoryRepository {
+
+}

@@ -1,0 +1,5 @@
+package com.dipu.ecommerce.product.service;
+
+public interface CategoryService {
+
+}

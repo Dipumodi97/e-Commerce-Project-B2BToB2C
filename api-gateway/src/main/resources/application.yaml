@@ -1,0 +1,33 @@
+server:
+  port: 8084
+
+spring:
+  application:
+    name: api-gateway
+
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+      routes:
+       - id: USER-SERVICE # It's unique name of Route'
+       # URI means request ko kis microservice ke pass forward karna hai
+       # isme eureka decide karta hai ki kis microservice instance ko choose karna hai
+         uri: lb://user-service # lb is LoadBalancer
+         # predicates means conditions means ki type ki request ko route me allow karna hai
+        # isme jitne bhi user se related URL hai unn sab me ye filter use hoga
+         predicates: 
+          -path= /user/*
+          # isme uss custom filter ka naam mention karna hota hai jo banaya gya hai 
+          # like CustomRouteFilter
+         filters: 
+           - CustomRouteFilter
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+
+

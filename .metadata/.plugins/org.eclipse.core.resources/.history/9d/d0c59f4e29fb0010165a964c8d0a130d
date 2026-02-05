@@ -1,0 +1,92 @@
+package com.dipu.ecommerce.product.service.impl;
+
+import org.springframework.data.domain.Page;
+import org.springframework.stereotype.Service;
+
+import com.dipu.ecommerce.product.dto.ProductDto;
+import com.dipu.ecommerce.product.entities.Category;
+import com.dipu.ecommerce.product.entities.Product;
+import com.dipu.ecommerce.product.mapper.ProductMapper;
+import com.dipu.ecommerce.product.repositories.ProductRepository;
+import com.dipu.ecommerce.product.service.ProductService;
+
+import lombok.RequiredArgsConstructor;
+
+@Service // iske through Spring ko business class pata chalta hai
+@RequiredArgsConstructor // It's  used for Dependency injection
+public class ProductServiceImpl implements ProductService{
+
+	private final ProductRepository productRepository;
+	private final ProductMapper productMapper;
+	
+	@Override
+	public ProductDto createProduct(ProductDto dto) {
+		// To set Category
+		Category category = null;
+		if(dto.getCategoryId() != null) {
+			category = new Category();
+			category.setCategoryId(dto.getCategoryId());
+		}
+		// to covert Dto to entity and save it
+		Product product = productMapper.toEntity(dto, category);
+		Product save = productRepository.save(product);
+		return productMapper.toDto(save);
+	}
+
+	@Override
+	public ProductDto updateProduct(Long id, ProductDto dto) {
+		Product product = productRepository.findById(id).
+		orElseThrow(()-> new RuntimeException("Product is not found "));
+		
+		product.setProductName(dto.getProductName());
+		product.setDescription(dto.getDescription());
+		product.setPrice(dto.getPrice());
+		product.setDiscountPrice(dto.getDiscountPrice());
+		
+		// to check in dto ,Category is available or not
+		if(dto.getCategoryId() != null) {
+			Category category = new Category();
+			category.setCategoryId(dto.getCategoryId());
+			product.setCategory(category);
+		}
+		return productMapper.toDto(productRepository.save(product));
+	}
+
+	@Override
+	public void deleteProduct(Long id) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public ProductDto getProductById(Long id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Page<ProductDto> getAllProduct(int page, int size, String sortBy, String sortDir) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Page<ProductDto> searchProduct(String keyword, int page, int size) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Page<ProductDto> filterProducts(Long categoryId, Double minPrice, Double maxPrice, int page, int size) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Page<ProductDto> advanceFilter(String keyword, Long categoryId, Double minPrice, Double maxPrice, int Page,
+			int size, String sortBy, String sortDir) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}
