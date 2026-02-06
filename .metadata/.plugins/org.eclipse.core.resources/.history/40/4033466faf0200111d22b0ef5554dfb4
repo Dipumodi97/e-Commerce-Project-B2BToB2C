@@ -1,0 +1,5 @@
+package com.dipu.ecommerce.order.mapper;
+
+public class OrderMapper {
+
+}

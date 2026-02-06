@@ -1,0 +1,5 @@
+package com.dipu.ecommerce.order.entity;
+
+public class Order {
+
+}

@@ -1,0 +1,5 @@
+package com.dipu.ecommerce.order.service.impl;
+
+public class OrderServiceImpl {
+
+}
