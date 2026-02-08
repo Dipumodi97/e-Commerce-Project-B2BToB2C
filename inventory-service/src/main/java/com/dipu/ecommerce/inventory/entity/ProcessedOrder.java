@@ -24,6 +24,6 @@ public class ProcessedOrder {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	@Column(nullable = false,unique = true)
-	private Long orderId;
+	private String orderId;
 	private LocalDateTime processedAt;
 }

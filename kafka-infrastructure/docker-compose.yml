@@ -1,8 +1,49 @@
+#kafka infrastructure ka ek folder banaya hai jisme,
+# kafka broker run karna hai and wo broker hamari microservices se alag honi chahiye
+# because, jab tak microservices se alag nhi hoga tab tak wo connect nhi ho sakega
+# that's reason, we have to connect with kafka
+
+# iss karan hum microservices se ek alag folder banaya , iss folder ka kisi bhi service se
+# koi lena dena nhi hai, ye sirf kafka infrastructure ke liye hota hai
+# and usee run karne ke liye and kafka container ko run karne ke liye docker use kar rahe hai
+
+# iss file me docker ko run karne ka tarika
+# isme kafka ka configuration karenge that means yadi ,
+# hame KRaft mode on/enable karna hai to hame yahi 
+# iss file me docker ko batayenge ki kaise kafka container run karna hai
+# after code use , jaise hum run karenge, Docker complete code understand karega usme ,
+# jo image mention karenge wo usee download karega,
+# kafka broker ko run karega jisse image service ready hogi and there afer
+# we have to start microservices and using kafka code
+
+# open cmd and use a command then ye file run hogi, jaise hi command run hoti hai ye container
+# uske baad start ho jaata hai and KRaft mode bhi enable ho jaata hai and 
+# broker bhi run ho jaata  hai
+
+#container_name: kafka -> ye naam only developer ke liye hai, jab production ke liye code 
+# karte hai to ye container name nhi  dete hai
+
+# image: bitnami/kafka:latest -> ye  image ka format hota hai
+# 1)bitnami-> isme sabse pahle publisher ka name likhte  hai like CompanyName jisne image banayi hai
+# 2)kafka -> uske baad Software ka naam
+# 3)latest -> iske baad ':latest' me version mention karte hai jisse Zookeeper use nhi karte hai
+
+
+# Ports koi static nhi hoti hai uski List hoti hai
+# 9092:9092 -> SpringBoot/Microservices  Host machine pe run ho rahi hoti hai and 
+# kafka docker-container ke andar chal raha hota hai and dono ko communicate karne ke liye
+# port  expose jaroori hota hai 
+# First 9092 System ka port hai and 2nd One  Container ke  andar kafka ka  port hai  
+# i.e. system ko bata rahe hai laptop ke 9092 par jo bhi aaye  usee container ke kafka 
+# port 9092 ke saath connect karna hai
+ 
 version: "3.8"
-services:
+services: # Hum yaha multiple services define kar sakte hai like tomcat,MySQL and sabki configuration different hogi
+
   kafka:
      image: bitnami/kafka:latest
-     container_name: kafka
+     container_name: kafka # not mandatory, beacause Docker alreadyy generate name like 
+     # folderName/serviceName/which number of Service
      ports:
           - "9092:9092"
      environment:
